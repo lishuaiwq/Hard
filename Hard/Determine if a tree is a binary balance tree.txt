@@ -1,0 +1,54 @@
+判断一个树是不是二叉平衡树
+
+方法1：
+class Solution {
+public:
+    int TreeDepth(TreeNode* pRoot)
+    {
+          if(pRoot==NULL)
+              return 0;
+        return max(TreeDepth(pRoot->left)+1,TreeDepth(pRoot->right)+1);
+    }
+    bool IsBalanced_Solution(TreeNode* pRoot) 
+    {
+        if(pRoot==NULL)
+            return true;
+        int left=TreeDepth(pRoot->left);
+        int right=TreeDepth(pRoot->right);
+        int flag=right-left;
+        if(flag>1||flag<-1)
+            return false;
+        return  IsBalanced_Solution(pRoot->left)&&IsBalanced_Solution(pRoot->right);
+    }
+};
+因为第一种方法会在求深度的时候遍历树，在判断是不是平衡二叉树的时候还会遍历二叉树，所以
+存在重复遍历效率太低，所以就有方法二，一边遍历一边判断
+方法2：
+class Solution {
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) 
+    {
+         int depth=0;
+        return _IsBalanced(pRoot,&depth);
+    }
+    bool _IsBalanced(TreeNode* pRoot,int *depth)
+    {
+        if(pRoot==NULL)
+        {
+            *depth=0;
+            return true;
+        }
+        int left,right;
+        if(_IsBalanced(pRoot->left,&left)&&_IsBalanced(pRoot->right,&right))
+        {
+            int flag=right-left;
+            if(flag<=1&&flag>=-1)
+            {
+                *depth=1+(left>right?left:right);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
