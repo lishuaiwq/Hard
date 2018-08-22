@@ -1,0 +1,46 @@
+题目描述:an
+请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，
+第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，
+其他行以此类推
+
+算法：
+1.分别每次统计每行的元素个数
+2.采用逆置的手法
+
+代码如下
+class Solution {
+public:
+    vector<vector<int> > Print(TreeNode* pRoot) 
+    {
+        vector<vector<int>> v;
+        queue<TreeNode*> q;
+        if(pRoot==NULL)
+            return v;
+        q.push(pRoot);//压入栈
+        bool cgi=false;//奇数行
+        TreeNode* cur=NULL;
+        while(!q.empty())
+        {
+            int flag=0;
+            vector<int> s;
+            int n=q.size();
+            while(flag++<n)
+            {
+                cur=q.front();
+                q.pop();
+                s.push_back(cur->val);
+                if(cur->left!=NULL)
+               q.push(cur->left);
+                if(cur->right!=NULL)
+               q.push(cur->right); 
+            }
+            if(cgi)//偶数行才需要逆转
+            {
+                reverse(s.begin(),s.end());
+            }
+           v.push_back(s);
+            cgi=!cgi;
+        }
+        return v;
+    }
+};
