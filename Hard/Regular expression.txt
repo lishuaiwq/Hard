@@ -1,0 +1,47 @@
+题目描述：正则表达式
+请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'
+表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。 
+在本题中，匹配是指字符串的所有字符匹配整个模式。
+例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+
+
+思路：
+if()//第二个不等于*，只用判断第一个是否相等，不相等直接返回false;
+else//第二个等于*
+   {
+      第一个相等的话：则第一个可能出现多次或者一次
+      第一个不相等的话，则第一个出现0次
+    }
+
+class Solution {
+public:
+    bool match(char* str, char* pattern)
+    {
+         if(*str=='\0'&&*pattern=='\0')
+             return true;
+        if(*str!='\0'&&*pattern=='\0')
+            return false;
+        //判断第二个字符是不是*就可以了
+        if(*(pattern+1)!='*')//第二个等于.
+        {
+         if(*str==*pattern||(*str!='\0'&&*pattern=='.'))//第一个相等，或者第一个不相等，但是正则是两个..
+         {
+             return match(str+1,pattern+1);
+         }
+         else
+            return false;
+        }else//第二个是*号的话
+        {
+            if(*str==*pattern||(*str!='\0'&&*pattern=='.'))
+            {
+                //第一个字符相等
+                //aaa和a*    abc和a* 分别对应前面字符出现多次和一次
+                return  match(str+1,pattern)||match(str,pattern+2);
+            }else//第一个字符不相等
+            {
+                //前面字符串出现0次
+                return match(str,pattern+2);
+            }
+        }
+    }
+};
