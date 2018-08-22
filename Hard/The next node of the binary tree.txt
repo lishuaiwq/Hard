@@ -1,0 +1,42 @@
+题目描述
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。
+注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+
+1.如果当前这个结点有右子树，根据中序遍历顺序，那么他的下一个结点一下是中序遍历中最左边的结点
+2.如果没有右子树
+那么就要判断他是不是父结点的左子树，如果是直接返回
+如果不是循环往上找就可以了
+
+class Solution {
+public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        if(pNode==NULL)
+            return NULL;
+        TreeLinkNode* cur=pNode;
+        if(cur->right!=NULL)
+        {
+            TreeLinkNode* ret=cur->right;
+            while(ret->left)
+            {
+                ret=ret->left;
+            }
+            return ret;
+        }
+        //当其右子树为空的时候
+        else
+        {
+            TreeLinkNode* parent=pNode->next;
+            while(parent)
+            {
+                if(parent->left==pNode)
+                {
+                    return parent;
+                }
+                pNode=parent;
+                parent=pNode->next;
+            }
+        }
+        return NULL;
+    }
+};
