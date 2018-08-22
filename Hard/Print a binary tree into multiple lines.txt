@@ -1,0 +1,40 @@
+题目描述
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行
+
+这个题比之字打印二叉树还简单
+
+两个的思路是一样的只不过之字打印需要判断并且逆置数组，而这个不需要
+
+算法
+
+class Solution {
+public:
+        vector<vector<int> > Print(TreeNode* pRoot) 
+        {
+            vector<vector<int>> v;
+            queue<TreeNode*> q;
+           if(pRoot==NULL)
+               return v;
+            q.push(pRoot);
+            TreeNode* cur=NULL;
+            while(!q.empty())
+            {
+                vector<int> s;
+                int flag=0;
+                int n=q.size();
+                while(flag++<n)
+                {
+                   cur=q.front();
+                    q.pop();
+                   s.push_back(cur->val);
+                   if(cur->left)
+                       q.push(cur->left);
+                   if(cur->right)
+                       q.push(cur->right);
+                }
+                v.push_back(s);
+            }
+            return v;
+        }
+    
+};
