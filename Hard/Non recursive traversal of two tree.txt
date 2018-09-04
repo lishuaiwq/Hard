@@ -1,0 +1,32 @@
+1.非递归中序遍历
+ vector<int> inorderTraversal(TreeNode* root)
+    {
+        vector<int> v;
+        stack<TreeNode*> s;
+           if(root==NULL)
+               return v;//
+        TreeNode* cur=root;//保存头结点
+         s.push(cur);//压入头结点
+        while(!s.empty())
+        {
+            while(cur!=NULL&&cur->left!=NULL)
+            {
+                cur=cur->left;
+                s.push(cur);
+            }//把左子树全部压进去
+            cur=s.top();
+            v.push_back(cur->val);
+            s.pop();//从栈中弹出
+            if(cur->right!=NULL)
+            {
+                cur=cur->right;
+                s.push(cur);//这里一定要特别注意
+            }else
+            {
+                cur=NULL;
+            }
+        }
+        return v;
+    }
+
+2.非递归前序
