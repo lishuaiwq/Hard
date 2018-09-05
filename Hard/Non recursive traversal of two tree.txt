@@ -30,3 +30,85 @@
     }
 
 2.非递归前序
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) 
+    {
+        vector<int> v;
+        if(root==NULL)
+            return v;
+        stack<TreeNode*> s;
+        s.push(root);//头结点压进去
+        v.push_back(root->val);//头结点已经进去了
+        TreeNode* cur=root;
+        while(!s.empty())
+        {
+            while(cur!=NULL&&cur->left!=NULL)//对于压入左子树先走在压
+            {
+                  cur=cur->left;//走到第二个结点
+                  v.push_back(cur->val);//输出第二个结点
+                  s.push(cur); //第二个结点压进去
+            }
+            cur=s.top();
+            s.pop();
+            if(cur->right!=NULL)//一般来说需要我们手动压入左子树
+            {
+                cur=cur->right;
+                s.push(cur);
+                v.push_back(cur->val);
+            }
+            else
+            {
+                cur=NULL;
+            }
+        }
+        return v;
+    }
+};
+
+非递归后续遍历
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) 
+    {
+            vector<int> v;
+            if(root==NULL)
+                return v;
+           TreeNode* cur=root;
+           stack<TreeNode*> s;
+           s.push(cur);
+           TreeNode* prev=NULL;
+           while(!s.empty())
+           {
+               while(cur!=NULL&&cur->left!=NULL)
+               {
+                   cur=cur->left;
+                   s.push(cur);
+               }
+               //左子树全部压进去
+               cur=s.top();
+               if(cur->right!=NULL&&cur->right!=prev)//在这里只需要标记右子树就可以了
+               {
+                   cur=cur->right;
+                   s.push(cur);//压进去
+               }
+               else//当右子树等于空的时候在输出当前结点
+               {
+                   v.push_back(cur->val);
+                   prev=cur;//需要标记一下,
+                   s.pop();
+                   cur=NULL;
+               }
+           }
+        return v;
+    }
+};
