@@ -1,0 +1,33 @@
+二叉搜索树的最近公共祖先
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q)
+    { 
+   //无非就是要么在左子树、右子树、要么是根节点。
+         if(root==NULL)
+             return NULL;
+        while(root)
+        {
+            if(p->val>root->val&&q->val>root->val)
+            {
+                root=root->right;
+            }else if(p->val<root->val&&q->val<root->val)
+            {
+                root=root->left;
+            }else
+            {
+                return root;
+            }
+        }
+    }
+};
