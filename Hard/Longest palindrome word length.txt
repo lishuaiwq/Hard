@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string longestPalindrome(string s)
+    {
+       size_t length=s.length();
+       string longsize; 
+       for(size_t i=0;i<length;i++)//挨个遍历.从中间向两边扩展去找
+       {
+            string s1=_longestPalindrome(s,i,i,length);//奇数
+            if(s1.length()>longsize.length())
+                longsize=s1;
+            string s2=_longestPalindrome(s,i,i+1,length);//偶数
+            if(s2.length()>longsize.length())
+                longsize=s2;
+       }
+        return longsize;
+    }
+    string _longestPalindrome(string s,int left,int right,int length)//进行找回文串的操作的
+    {
+        while(left>=0&&right<length&&s[left]==s[right])
+        {
+            --left;
+            ++right;
+        }
+        return s.substr(left+1,right-left-1);
+    }
+};
